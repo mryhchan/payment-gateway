@@ -1,0 +1,44 @@
+{
+  "Payment": {
+    "dbConfig" : {
+      "host" : "db_1",
+      "port" : "27017",
+      "dbname" : "payment-gateway"
+    },
+    "redis": {
+      "host": "redis_1",
+      "port": "6379"
+    }
+  },
+  "Braintree": {
+    "Sandbox": {
+      "merchantId": "pcr9xgt8xht6kq9s",
+      "publicKey": "6hdskrt2hz5tjfcr",
+      "privateKey": "f002481fdf794803c1fedfb4764edb3f"
+    },
+    "merchantAccounts": {
+      "HKD": "no_company_HKD",
+      "JPY": "no_company_JPY",
+      "CNY": "no_company_CNY"
+    }
+  },
+  "CreditCard" :{
+    "encryption" : {
+      "password" : "password",
+      "algorithm" : "aes-256-ctr"
+    }
+  },
+  "Request": {
+    "passphrase": "password"
+  },
+  "Paypal": {
+    "Config": {
+      "mode": "sandbox",
+      "token": "access_token$sandbox$2dkvd45hb86yvbcn$1694c9bb67554afeab02c0395d1f16e7",
+      "email": "mryhchan.facilitator@gmail.com",
+      "expiryDate": "04 Nov 2027",
+      "clientID": "ASMT8CW1x6bH3_mKl_92E59N7-XI6iPSBTKZdszjqZjhWayOo7bZO-I_osHEs72_CmqOJJcvXlM0HtwD",
+      "clientSecret": "EKGJ1Wzj558CpDOtjjiN0P95XfQgXAORv7lQ8BiovCV_Q5BbJZlPBOnfYAsY2_9v2pseSu5r8-5Ji_Mu"
+    }
+  }
+}

@@ -1,0 +1,69 @@
+doctype html
+html(ng-app='app')
+  head
+    title= title
+    link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='stylesheet', href='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css',  integrity='sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb',crossorigin='anonymous')
+
+    script(src='https://js.braintreegateway.com/web/3.25.0/js/client.min.js')
+    script(src='https://code.jquery.com/jquery-3.2.1.slim.min.js', integrity='sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN', crossorigin='anonymous')
+    script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js', integrity='sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh', crossorigin='anonymous')
+    script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js', integrity='sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ', crossorigin='anonymous')
+    script(src='https://js.braintreegateway.com/web/3.25.0/js/hosted-fields.min.js')
+    script(src='https://ajax.googleapis.com/ajax/libs/angularjs/1.6.6/angular.min.js')
+    script(src='/javascripts/app.js')
+    script(src='/javascripts/jsencrypt.min.js')
+
+
+  body
+    div(id='content',ng-controller='Payment_Controller as payment',class='panel panel-default bootstrap-basic',ng-init='init()')
+      div(class='panel-heading')
+        h3(class='panel-title', id=form.id) #{form.str}
+      form(method='post',id='paymentForm',class='panel-body',ng-submit="submit(form)")
+        div(ng-hide='true',id='token') #{token}
+        div(ng-hide='true',id='publicKey') #{publicKey}
+        div(class='panel-heading')
+          h4(class='panel-title') #{form.orderinfo.str}
+        div(class='panel-body')
+          div(class='form-group col-sm-8 control-label')
+            label(for=form.orderinfo.firstName.id,class='control-label') #{form.orderinfo.firstName.str}*
+            input(ng-readonly="readOnly",type='text',id=form.orderinfo.firstName.id,name=form.orderinfo.firstName.id,class='form-control',placeholder=form.orderinfo.firstName.placeholder,ng-model='form.orderinfo.firstName.val')
+            div(class='message')
+          div(class='form-group col-sm-8 control-label')
+            label(for=form.orderinfo.lastName.id,class='control-label') #{form.orderinfo.lastName.str}*
+            input(ng-readonly="readOnly",type='text',id=form.orderinfo.lastName.id,name=form.orderinfo.lastName.id,class='form-control',placeholder=form.orderinfo.lastName.placeholder,ng-model='form.orderinfo.lastName.val')
+            div(class='message')
+          div(class='form-group col-sm-8 control-label')
+            label(for=form.orderinfo.phoneNumber.id) #{form.orderinfo.phoneNumber.str}*
+            input(ng-readonly="readOnly",type='tel',id=form.orderinfo.phoneNumber.id,name=form.orderinfo.phoneNumber.id,class='form-control',placeholder=form.orderinfo.phoneNumber.placeholder,ng-model='form.orderinfo.phoneNumber.val')
+            div(class='message')
+          div(class='form-group col-sm-8 control-label')
+            label(for=form.orderinfo.currency.id,class='control-label') #{form.orderinfo.currency.str}*
+            select(ng-readonly="readOnly",name=form.orderinfo.currency.id,id=form.orderinfo.currency.id,class='form-control',ng-model='form.orderinfo.currency.val',ng-options='option for option in currency')
+            div(class='message')
+          div(class='form-group col-sm-8 control-label')
+            label(for=form.orderinfo.price.id,class='control-label') #{form.orderinfo.price.str}*
+            input(ng-readonly="readOnly",type='number',id=form.orderinfo.price.id,name=form.orderinfo.price.id,class='form-control',placeholder=form.orderinfo.price.placeholder,ng-model='form.orderinfo.price.val',min='0',step='0.01')
+            div(class='message')
+        div(class='panel-heading')
+          h4(class='panel-title', id=form.paymentinfo.id) #{form.paymentinfo.str}
+        div(class='panel-body')
+          div(class='form-group col-sm-8 control-label')
+            label(for=form.paymentinfo.cardholderName.id)            #{form.paymentinfo.cardholderName.str}*
+            input(ng-readonly="readOnly",type='text',name=form.paymentinfo.cardholderName.id,id=form.paymentinfo.cardholderName.id,class='form-control',placeholder=form.paymentinfo.cardholderName.placeholder,ng-model='form.paymentinfo.cardholderName.val')
+            div(class='message')
+          div(class='form-group col-sm-8 control-label')
+            label(for=form.paymentinfo.number.id) #{form.paymentinfo.number.str}*
+            input(ng-readonly="readOnly",type='text',name=form.paymentinfo.number.id,id=form.paymentinfo.number.id,class='form-control',placeholder=form.paymentinfo.number.placeholder,ng-model='form.paymentinfo.number.val')
+            div(class='message')
+            div(id='card-type')
+          div(class='form-group col-sm-8 control-label')
+            label(for=form.paymentinfo.expirationDate.id) #{form.paymentinfo.expirationDate.str}*
+            input(ng-readonly="readOnly",type='text',name=form.paymentinfo.expirationDate.id,id=form.paymentinfo.expirationDate.id,class='form-control',placeholder=form.paymentinfo.expirationDate.placeholder,ng-model='form.paymentinfo.expirationDate.val')
+            div(class='message')
+          div(class='form-group col-sm-8 control-label')
+            label(for=form.paymentinfo.cvv.id) #{form.paymentinfo.cvv.str}*
+            input(ng-readonly="readOnly",type='text',name=form.paymentinfo.cvv.id,id=form.paymentinfo.cvv.id,class='form-control',placeholder=form.paymentinfo.cvv.placeholder,ng-model='form.paymentinfo.cvv.val')
+            div(class='message')
+        button(type='submit', class ='btn btn-primary center-block', id=form.purchaseBtn.id,ng-readonly="readOnly") #{form.purchaseBtn.str}
+        div(class='message')
