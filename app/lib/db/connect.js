@@ -12,7 +12,6 @@ module.exports= (type) => {
     url+=dbConfig.host;
     url+=":"+dbConfig.port;
     url+="/"+dbConfig.dbname;
-    console.log(url);
     return mongoose.createConnection(url, {
       useMongoClient: true
     });

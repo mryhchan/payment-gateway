@@ -9,7 +9,8 @@
     },
     "redis": {
       "host": "redis-11413.c16.us-east-1-3.ec2.cloud.redislabs.com:11413",
-      "port": "11413"
+      "port": "11413",
+      "password": "4Bw8rTbgWFdBz0Wy"
     }
   },
   "Braintree": {
