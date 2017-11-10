@@ -36,8 +36,10 @@ This application is basic on these requirements to develop.
 ## 2. Design
 ### Structure(docker-compose)
 To modify the docker-compose.yml can be set more than one `payment-gateway` to load-balancing the application.
->  nginx > payment-gateway(load-balancing) >  redis
->        > payment-gateway(load-balancing) >   and mongo db
+```
+nginx > payment-gateway(load-balancing) >  redis 
+      > payment-gateway(load-balancing) >   and mongo db
+```
 
 ### Structure(heroku)
 For the Structure of `heroku`, `payment-gateway` is connected redisLab(redis) and Mlab(mongoDB) in cloud.
