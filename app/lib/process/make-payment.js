@@ -9,14 +9,14 @@ let _ = require('lodash');
 let createCard = require('../braintree/creditcard/create.js');
 
 let braintreeCreateTransaction = require('../braintree/transaction/create.js');
-let paypalCreateTransaction= require('../paypal/transaction/create.js');
+let paypalCreateTransaction = require('../paypal/transaction/create.js');
 
 let Payment = require('../db/payment/model.js');
 let config = require('config');
 var redis = require('../redis/connect.js');
 
 
-let braintreeMerchantAccounts =   config.get('Braintree.merchantAccounts');
+let braintreeMerchantAccounts = config.get('Braintree.merchantAccounts');
 
 module.exports = (obj, encrypted) => {
   return new Promise((resolve, reject) => {
@@ -38,14 +38,14 @@ module.exports = (obj, encrypted) => {
     };
     let cardInfo = obj.paymentinfo;
     let orderInfo = obj.orderinfo;
-    let gatewayRespnse = {} ;
+    let gatewayRespnse = {};
     let gatewayType = 'Braintree';
-    cardInfo.number = cardInfo.number.replace(/\s/g,'')
+    cardInfo.number = cardInfo.number.replace(/\s/g, '')
     let promise = createCustomer(customerInfo);
     promise.then((result) => {
       customerInfo.customerId = result.customer.id;
       cardInfo.customerId = result.customer.id;
-      if(cardInfo.cvv === null || cardInfo.cvv.length === 0){
+      if (cardInfo.cvv === null || cardInfo.cvv.length === 0) {
         err = {
           err: "CVV_IS_REQUIRED"
         }
@@ -55,7 +55,7 @@ module.exports = (obj, encrypted) => {
     }, (err) => {
       throw err;
     }).then((response) => {
-      if(parseInt(response.creditCard.expirationYear)<(new Date()).getFullYear()){
+      if (parseInt(response.creditCard.expirationYear) < (new Date()).getFullYear()) {
         err = {
           err: "CREDIT_CARD_IS_EXPRIED"
         }
@@ -72,43 +72,46 @@ module.exports = (obj, encrypted) => {
       if (usePayPal.indexOf(orderInfo.currency) >= 0) {
         gatewayType = 'PayPal'
         var card_data = {
-        "type": response.creditCard.cardType,
-        "number": cardInfo.number,
-        "expire_month": response.creditCard.expirationMonth,
-        "expire_year": response.creditCard.expirationYear,
-        "cvv2": cardInfo.cvv,
-        "first_name": "Braintree",
-        "last_name": cardInfo.cardholderName,
-        "external_customer_id": cardInfo.customerId
+          "type": response.creditCard.cardType,
+          "number": cardInfo.number,
+          "expire_month": response.creditCard.expirationMonth,
+          "expire_year": response.creditCard.expirationYear,
+          "cvv2": cardInfo.cvv,
+          "first_name": "Braintree",
+          "last_name": cardInfo.cardholderName,
+          "external_customer_id": cardInfo.customerId
         };
         let transactionInfo = {
-          amount : obj.orderinfo.price,
-          currency : obj.orderinfo.currency,
+          amount: obj.orderinfo.price,
+          currency: obj.orderinfo.currency,
         };
         return paypalCreateTransaction(card_data, transactionInfo);
       } else {
-        let transactionInfo = {
-          amount : obj.orderinfo.price,
-          merchantAccountId: braintreeMerchantAccounts[obj.orderinfo.currency],
-          customer :  _.clone(customerInfo),
-          creditCard : _.clone(obj.paymentinfo),
-          customerId : customerInfo.customerId
-        };
-        transactionInfo.customer.phone =   transactionInfo.customer.phoneNumber;
-        _.unset(transactionInfo.customer,'phoneNumber');
-        _.unset(transactionInfo.customer,'customerId');
-        _.unset(transactionInfo.creditCard,'customerId');
-
-        return braintreeCreateTransaction(transactionInfo);
+        if (braintreeMerchantAccounts.hasOwnProperty(obj.orderinfo.currency)) {
+          let transactionInfo = {
+            amount: obj.orderinfo.price,
+            merchantAccountId: braintreeMerchantAccounts[obj.orderinfo.currency],
+            customer: _.clone(customerInfo),
+            creditCard: _.clone(obj.paymentinfo),
+            customerId: customerInfo.customerId
+          };
+          transactionInfo.customer.phone = transactionInfo.customer.phoneNumber;
+          _.unset(transactionInfo.customer, 'phoneNumber');
+          _.unset(transactionInfo.customer, 'customerId');
+          _.unset(transactionInfo.creditCard, 'customerId');
+          return braintreeCreateTransaction(transactionInfo);
+        } else{
+            throw {err:'CURRENCY_IS_NOT_SUPPORT'};
+        }
       }
     }, (err) => {
       throw err;
     }).then((result) => {
-      let _payment = new Payment(obj,result,gatewayType);
+      let _payment = new Payment(obj, result, gatewayType);
       return _payment.save();
     }, (err) => {
       throw err;
-    }).then((doc)=>{
+    }).then((doc) => {
       redis.set(doc.referenceCode, JSON.stringify(doc), redis.print);
       return successOutputGenerator(doc);
     }, (err) => {

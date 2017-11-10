@@ -122,6 +122,12 @@ module.exports = (err) => {
           err: err.err
         });
         break;
+      case 'CURRENCY_IS_NOT_SUPPORT':
+        output.messages.push({
+          message: 'Currency is not support.',
+          err: err.err
+        });
+        break;
     }
   }
   return output;
