@@ -274,7 +274,7 @@ You can create your own Configuration file to run application. Here is a full co
 
 ## 5. Tests
 ### Credit Card Numbers
-Braintree provided some Test Card for testing and verification, you can access [here]
+Braintree provided some Test Card for testing and verification, you can access [here]  
 For more test case, Please refer to file in `/path/to/payment-gateway/spec/make-payment-spec.js`
 
 Credit Card Numbers| Method | Success, Fail | result
