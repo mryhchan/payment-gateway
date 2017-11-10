@@ -1,13 +1,16 @@
 {
   "Payment": {
-    "dbConfig" : {
-      "host" : "db_1",
-      "port" : "27017",
-      "dbname" : "payment-gateway"
+    "dbConfig": {
+      "host": "ds151955.mlab.com",
+      "port": "51955",
+      "dbname": "heroku_qlv7zf0p",
+      "user": "paymentgateway",
+      "password": "development"
     },
     "redis": {
-      "host": "redis_1",
-      "port": "6379"
+      "host": "redis-11413.c16.us-east-1-3.ec2.cloud.redislabs.com",
+      "port": "11413",
+      "password": "4Bw8rTbgWFdBz0Wy"
     }
   },
   "Braintree": {
@@ -22,10 +25,10 @@
       "CNY": "no_company_CNY"
     }
   },
-  "CreditCard" :{
-    "encryption" : {
-      "password" : "password",
-      "algorithm" : "aes-256-ctr"
+  "CreditCard": {
+    "encryption": {
+      "password": "password",
+      "algorithm": "aes-256-ctr"
     }
   },
   "Request": {
@@ -39,6 +42,25 @@
       "expiryDate": "04 Nov 2027",
       "clientID": "ASMT8CW1x6bH3_mKl_92E59N7-XI6iPSBTKZdszjqZjhWayOo7bZO-I_osHEs72_CmqOJJcvXlM0HtwD",
       "clientSecret": "EKGJ1Wzj558CpDOtjjiN0P95XfQgXAORv7lQ8BiovCV_Q5BbJZlPBOnfYAsY2_9v2pseSu5r8-5Ji_Mu"
+    }
+
+  },
+  "Test": {
+    "dbConfig": {
+      "host": "ds241895.mlab.com",
+      "port": "41895",
+      "dbname": "payment-gateway",
+      "user": "paymentgateway",
+      "password": "development"
+    }
+  },
+  "Test_fail": {
+    "dbConfig": {
+      "host": "ds241895.mlab.com",
+      "port": "27017",
+      "dbname": "payment-gateway",
+      "user": "paymentgateway",
+      "password": "development"
     }
   }
 }
