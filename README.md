@@ -226,7 +226,7 @@ You can create your own Configuration file to run application. Here is a full co
     - description: the value of form elements referenceCode in the form
 - response: html page with payment checking form
 
-### 4.4 /paymentCheckingForm/checking
+### 4.4 /paymentCheckingForm/check
 - method: POST
 - optional parameters (query):
   - GET parameter: encrypted
