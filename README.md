@@ -101,7 +101,16 @@ cd /path/to/the/patment-gateway/app
 # start to test the application
 npm test
 ```
-### 3.5 Edit Configuration file
+
+### 3.5 connect to host
+
+#### 3.5.1 docker-compose
+> https://localhost/
+
+#### 3.5.2 other local environment
+> http://localhost:3000/
+
+### 3.6 Edit Configuration file
 You can create your own Configuration file to run application. Here is a full configuration file.
 ```json
 {
