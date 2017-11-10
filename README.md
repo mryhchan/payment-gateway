@@ -37,7 +37,7 @@ This application is basic on these requirements to develop.
 ### Structure(docker-compose)
 To modify the docker-compose.yml can be set more than one `payment-gateway` to load-balancing the application.
 ```
-nginx > payment-gateway(load-balancing) >  redis 
+nginx > payment-gateway(load-balancing) >  redis
       > payment-gateway(load-balancing) >   and mongo db
 ```
 
@@ -306,9 +306,12 @@ Credit Card Numbers| Method | Success, Fail | result
 - Regarding to the previous problem, `PayPal Sandbox` is not accept all of the credit card provided from `Braintree Sandbox`.
 - `PayPal Sandbox` always refuse the payment record from using CreditCard except American Express and currency is `USD`, `EUR` or `AUD`.
 
+### 6.3 Improvement
+- To improve the user experience, Author suggest assign the payment process to a [queue] to reduce the time of waiting the payment gateway response. But this action need to modify the logic flow.
 
 ## 7. Public access URL
 >https://young-dusk-45508.herokuapp.com/
 
 [here]: https://developers.braintreepayments.com/guides/credit-cards/testing-go-live/node
 [jsencrypt]:http://travistidwell.com/jsencrypt/
+[queue]: https://caolan.github.io/async/docs.html#queue
